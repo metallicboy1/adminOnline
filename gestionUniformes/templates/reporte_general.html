@@ -1,0 +1,397 @@
+{% extends "administracion.html" %}
+
+{% block title %} Reporte General {% endblock %}
+
+{% block content %} 
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Reporte General</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          This week
+        </button>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+      <h3 class="h5">Uniformes</h3>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <canvas class="my-4 w-100 chartjs-render-monitor" id="ChartAnual" width="1634" height="688" style="display: block; width: 817px; height: 344px;"></canvas>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col">
+            <canvas class="my-4 w-100 chartjs-render-monitor" id="ChartEstados" width="1634" height="688" style="display: block; width: 817px; height: 344px;"></canvas>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h6 class="h4">Tallas</h6>
+                <canvas class="my-4 w-100 chartjs-render-monitor" id="ChartTallas" width="1634" height="1080" style="display: block; width: 817px; height: 344px;"></canvas>
+            </div>
+            <div class="col">
+                <h6 class="h4">Sexo</h6>
+                <canvas class="my-4 w-100 chartjs-render-monitor" id="ChartSexo" width="1634" height="1080" style="display: block; width: 817px; height: 344px;"></canvas>
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+              <h6 class="h4">Tallas Mujeres</h6>
+              <canvas class="my-4 w-100 chartjs-render-monitor" id="ChartTallas_M" width="1634" height="1080" style="display: block; width: 817px; height: 344px;"></canvas>
+          </div>
+          <div class="col">
+              <h6 class="h4">Tallas Hombres</h6>
+              <canvas class="my-4 w-100 chartjs-render-monitor" id="ChartTallas_H" width="1634" height="1080" style="display: block; width: 817px; height: 344px;"></canvas>
+          </div>
+      </div>
+        
+      </div>
+    
+  </main>
+{% endblock %}
+
+{% block script %} 
+<script>
+    /* globals Chart:false, feather:false */
+// Graphs
+var ctxA = document.getElementById('ChartAnual');
+var ctxE = document.getElementById('ChartEstados');
+var ctxT = document.getElementById('ChartTallas');
+var ctxT_M = document.getElementById('ChartTallas_M');
+var ctxT_H = document.getElementById('ChartTallas_H');
+var ctxS = document.getElementById('ChartSexo');
+// eslint-disable-next-line no-unused-vars
+
+var myChart = new Chart(ctxA, {
+  type: 'line',
+  data: {
+    labels: [
+      'Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio',
+      'Agosto','Septiembre','Octubre','Noviembre','Diciembre',
+    ],
+    datasets: [{
+      label:"Solicitudes",
+      data: [
+        "{{solicitud_Enero}}","{{solicitud_Febrero}}","{{solicitud_Marzo}}","{{solicitud_Abril}}","{{solicitud_Mayo}}",
+        "{{solicitud_Junio}}","{{solicitud_Julio}}","{{solicitud_Agosto}}","{{solicitud_Septiembre}}","{{solicitud_Octubre}}",
+        "{{solicitud_Noviembre}}","{{solicitud_Diciembre}}",
+      ],
+      lineTension: 0,
+      backgroundColor:  [
+      'rgba(188,188,188,0.2)',
+      ],
+      borderColor: [
+      'rgba(188,188,188,0.7)',
+      ],
+      borderWidth: 2,
+      pointBackgroundColor: 'rgba(188,188,188,1)',
+    },
+    {
+      label:"Entregados",
+      data: [
+        "{{entregados_Enero}}","{{entregados_Febrero}}","{{entregados_Marzo}}","{{entregados_Abril}}","{{entregados_Mayo}}",
+        "{{entregados_Junio}}","{{entregados_Julio}}","{{entregados_Agosto}}","{{entregados_Septiembre}}","{{entregados_Octubre}}",
+        "{{entregados_Noviembre}}","{{entregados_Diciembre}}",
+      ],
+      lineTension: 0,
+      backgroundColor:  [
+      'rgba(0, 137, 132, .2)',
+      ],
+      borderColor: [
+      'rgba(0, 10, 130, .7)',
+      ],
+      borderWidth: 2,
+      pointBackgroundColor: 'rgba(0, 10, 130, 1)',
+    },
+  ]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    },
+    legend: {
+      display: true
+    }
+  },
+})
+
+
+var myChart = new Chart(ctxE, {
+  type: 'horizontalBar',
+  data: {
+    labels: [
+      'Solicitudes',
+      'Entregados',
+      'Aclaraciones',
+      'Cancelados',
+    ],
+    datasets: [{
+      data: [
+        "{{Solicitudes}}",
+        "{{Entregados}}",
+        "{{Aclaraciones}}",
+        "{{Cancelados}}"
+      ],
+      lineTension: 0,
+      backgroundColor:  [
+      'rgba(188,188,188,1)',
+      'rgba(41, 249, 44, 0.6)',
+      'rgba(85, 87, 241, 0.6)',
+      'rgba(249, 41, 41, 0.6)'
+      ],
+      hoverBackgroundColor: ["#6D6D6D", "#57f759", "#3C3FE5", "#ff4d4d"],
+      pointBackgroundColor: '#007bff'
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: false
+        }
+      }]
+    },
+    legend: {
+      display: false
+    }
+  },
+})
+
+var myChart = new Chart(ctxT, {
+  type: 'doughnut',
+  data: {
+    labels: [
+      'XCH',
+      'CH',
+      'M',
+      'G',
+      'XG',
+      '2XG',
+      '3XG',
+      '4XG',
+      '5XG',
+      '6XG',
+    ],
+    datasets: [{
+      data: [
+        "{{Talla_XCH}}",
+        "{{Talla_CH}}",
+        "{{Talla_M}}",
+        "{{Talla_G}}",
+        "{{Talla_XG}}",
+        "{{Talla_2XG}}",
+        "{{Talla_3XG}}",
+        "{{Talla_4XG}}",
+        "{{Talla_5XG}}",
+        "{{Talla_6XG}}",
+      ],
+      lineTension: 0,
+      backgroundColor:  [
+      'rgba(95,236,203,1)',
+      'rgba(95,186,236,1)',
+      'rgba(95,118,236,1)',
+      'rgba(95,102,236,1)',
+      'rgba(168,95,236,1)',
+      'rgba(236,95,236,1)',
+      'rgba(236,96,168,1)',
+      'rgba(236,95,121,1)',
+      'rgba(238,62,65,1)',
+      'rgba(40,40,40,1)',
+      ],
+      pointBackgroundColor: '#007bff'
+    }]
+  },
+  options: {
+    scales: {
+      xAxes: [{
+               gridLines: {
+                  display: false
+               },
+            ticks: {
+            display: false,
+            }
+            }],
+      yAxes: [{
+        gridLines: {
+                  display: false
+               },
+        ticks: {
+          display: false,
+          beginAtZero: false
+        }
+      }]
+    },
+    legend: {
+      position: 'bottom',
+      display: true
+    }
+  },
+})
+
+var myChart = new Chart(ctxS, {
+  type: 'doughnut',
+  data: {
+    labels: [
+      'Hombre',
+      'Mujer',
+    ],
+    datasets: [{
+      data: [
+        "{{Hombre}}",
+        "{{Mujer}}",
+      ],
+      lineTension: 0,
+      backgroundColor:  [
+      'rgba(62,153,238,1)',
+      'rgba(238, 142, 52, 1)',
+      ],
+      hoverBackgroundColor: ["#72B4F2", "#F1A055"],
+      pointBackgroundColor: '#007bff'
+    }]
+  },
+  options: {
+    scales: {
+      xAxes: [{
+               gridLines: {
+                  display: false
+               },
+            ticks: {
+            display: false,
+            }
+            }],
+      yAxes: [{
+        gridLines: {
+                  display: false
+               },
+        ticks: {
+          display: false,
+          beginAtZero: false
+        }
+      }]
+    },
+    legend: {
+      position: 'bottom',
+      display: true
+    }
+  },
+})
+
+var myChart = new Chart(ctxT_M, {
+  type: 'bar',
+  data: {
+    labels: [
+      'XCH',
+      'CH',
+      'M',
+      'G',
+      'XG',
+      '2XG',
+      '3XG',
+      '4XG',
+      '5XG',
+      '6XG',
+    ],
+    datasets: [{
+      data: [
+        "{{Talla_XCH_M}}",
+        "{{Talla_CH_M}}",
+        "{{Talla_M_M}}",
+        "{{Talla_G_M}}",
+        "{{Talla_XG_M}}",
+        "{{Talla_2XG_M}}",
+        "{{Talla_3XG_M}}",
+        "{{Talla_4XG_M}}",
+        "{{Talla_5XG_M}}",
+        "{{Talla_6XG_M}}",
+      ],
+      lineTension: 0,
+      backgroundColor:  [
+      'rgba(95,236,203,1)',
+      'rgba(95,186,236,1)',
+      'rgba(95,118,236,1)',
+      'rgba(95,102,236,1)',
+      'rgba(168,95,236,1)',
+      'rgba(236,95,236,1)',
+      'rgba(236,96,168,1)',
+      'rgba(236,95,121,1)',
+      'rgba(238,62,65,1)',
+      'rgba(40,40,40,1)',
+      ],
+      pointBackgroundColor: '#007bff'
+    }]
+  },
+  options: {
+    legend: {
+      position: 'bottom',
+      display: true
+    }
+  },
+})
+
+var myChart = new Chart(ctxT_H, {
+  type: 'bar',
+  data: {
+    labels: [
+      'XCH',
+      'CH',
+      'M',
+      'G',
+      'XG',
+      '2XG',
+      '3XG',
+      '4XG',
+      '5XG',
+      '6XG',
+    ],
+    datasets: [{
+      data: [
+        "{{Talla_XCH_H}}",
+        "{{Talla_CH_H}}",
+        "{{Talla_M_H}}",
+        "{{Talla_G_H}}",
+        "{{Talla_XG_H}}",
+        "{{Talla_2XG_H}}",
+        "{{Talla_3XG_H}}",
+        "{{Talla_4XG_H}}",
+        "{{Talla_5XG_H}}",
+        "{{Talla_6XG_H}}",
+      ],
+      lineTension: 0,
+      backgroundColor:  [
+      'rgba(95,236,203,1)',
+      'rgba(95,186,236,1)',
+      'rgba(95,118,236,1)',
+      'rgba(95,102,236,1)',
+      'rgba(168,95,236,1)',
+      'rgba(236,95,236,1)',
+      'rgba(236,96,168,1)',
+      'rgba(236,95,121,1)',
+      'rgba(238,62,65,1)',
+      'rgba(40,40,40,1)',
+      ],
+      pointBackgroundColor: '#007bff'
+    }]
+  },
+  options: {
+    legend: {
+      position: 'bottom',
+      display: true
+    }
+  },
+})
+
+  </script>
+{% endblock %}

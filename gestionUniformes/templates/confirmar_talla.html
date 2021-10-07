@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <title>Confirmar_Talla</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    </head>
+    <body>
+        <form class="row g-3 needs-validation" action='/confirmar_talla/{{clvcont}}' method="POST" novalidate>
+            {% csrf_token %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <th scope="col">No. Persona</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Sexo</th>
+                        <th scope="col">Talla</th>
+                    </thead>
+                    <tbody>
+                        {%for registro in registros%}
+                        <tr>
+                            <td scope="col"> {{registro.nopersona}}</td>
+                            <td data-label="Nombre"> {{registro.nombre}} </td>
+                            <td data-label="Sexo"> 
+                                <select class="form-select" name="Sexo" aria-label="Default select example" required>
+                                    <option selected disabled value="">Selecciona Sexo</option>
+                                    <option value="Hombre">Hombre</option>
+                                    <option value="Mujer">Mujer</option>
+                                  </select>
+                                  <div class="invalid-feedback">
+                                      Porfavor ingresa el Sexo
+                                  </div>
+                            </td>
+                            <td data-label="Talla">
+                                <select class="form-select" name="Talla" aria-label="Default select example" required>
+                                    <option selected disabled value="">Selecciona Talla</option>
+                                    <option value="XCH">XCH</option>
+                                    <option value="CH">CH</option>
+                                    <option value="M">M</option>
+                                    <option value="G">G</option>
+                                    <option value="XG">XG</option>
+                                    <option value="2XG">2XG</option>
+                                    <option value="3XG">3XG</option>
+                                    <option value="4XG">4XG</option>
+                                    <option value="5XG">5XG</option>
+                                    <option value="6XG">6XG</option>
+                                </select> 
+                                <div class="invalid-feedback">
+                                    Porfavor ingresa la Talla
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit">Enviar</button>
+            </div>
+        </form>
+    </body>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+    </script>
+</html>

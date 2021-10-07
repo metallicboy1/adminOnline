@@ -1,0 +1,9 @@
+<nav class="navbar navbar-dark   bg-dark  flex-md-nowrap p-0 shadow">
+  {%if user.is_superuser%}
+    <a class="navbar-brand col-md-3 col-xl-5 mr-0 px-3" href="{% url 'dashboard' %}">FISA / AEF Administration Page</a>
+  {%endif%}
+  {%if user.is_authenticated%}
+    <h6 class="text-light col-md-3 col-xl-5 mr-3 px-2" >¡Bienvenido {{user.username}}! Ultima vez: {{user.last_login}} </h6>
+    <a class="btn btn-outline-danger btn-sm btn-block"   href="{% url 'logout' %}">Cerrar Sesión</a>
+  {%endif%}
+</nav>

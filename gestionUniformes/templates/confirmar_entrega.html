@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <title>Confirmar_Talla</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    </head>
+    <body>
+        <form class="row g-3 needs-validation" action='/confirmar_entrega/{{clvcont}}' method="POST" novalidate>
+            {% csrf_token %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <th scope="col">No. Persona</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Sexo</th>
+                        <th scope="col">Talla</th>
+                        <th scope="col">¿LLego Bien?</th>
+                        <th scope="col">Aclaraciones</th>
+                    </thead>
+                    <tbody>
+                        {%for registro in registros%}
+                        <tr>
+                            <td scope="col"> {{registro.nopersona}}</td>
+                            <td data-label="Nombre"> {{registro.nombre}} </td>
+                            <td data-label="Sexo">{{registro.sexo}}</td>
+                            <td data-label="Talla">{{registro.talla}}</td>
+                            <td data-label="Llego">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="{{registro.nopersona}}" id="{{registro.nopersona}}" value="true" required>
+                                    <label class="form-check-label" for="{{registro.nopersona}}">
+                                      LLego Bien
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="{{registro.nopersona}}" id="{{registro.nopersona}}" value="false">
+                                    <label class="form-check-label" for="{{registro.nopersona}}">
+                                        LLego Mal
+                                    </label>
+                                </div>
+                                  
+                                <div class="invalid-feedback">
+                                    Porfavor selecciona una opción
+                                </div>
+                            </td>
+                            <td data-label="Aclaraciones">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" name="Aclaraciones" placeholder="Aclaraciones" aria-label="Aclaraciones" aria-describedby="basic-addon1">
+                                  </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit">Enviar</button>
+            </div>
+        </form>
+    </body>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+    </script>
+</html>

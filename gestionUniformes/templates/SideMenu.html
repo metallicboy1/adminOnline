@@ -1,0 +1,40 @@
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+  <div class="sticky-top pt-3" id="barranav">
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a class="nav-link {% if title == 'Dashboard' %} active {% endif %} link-dark" href="{% url 'dashboard' %}">
+          <i class="fa fa-home"></i>
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if title == 'Aplicaciones' %} active {% endif %} link-dark" href="{% url 'aplicaciones' %}">
+          <i class="fa fa-rocket"></i>
+          Aplicaciones
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if title == 'Uniformes' %} active {% endif %} link-dark" href="{% url 'uniformes' %}">
+          <i class="fa fa-black-tie"></i>
+          Uniformes
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link-dark disabled" href="#">
+          <i class="fa fa-phone-square"></i>
+          Telefonos <br>(En desarrollo)
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link  {% if title == 'Reporte General' %} active {% endif %} link-dark" href="{% url 'reporte_general' %}">
+          <i class="fa fa-clipboard"></i>
+          Reporte General
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

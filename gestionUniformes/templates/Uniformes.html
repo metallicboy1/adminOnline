@@ -1,0 +1,168 @@
+{% extends "administracion.html" %}
+
+{% block title %} Uniformes {% endblock %}
+
+{% block content %} 
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>  
+    <div class="table-responsive">
+        <table class="table table-hover align-middle caption-top"
+        data-toggle="table"
+        data-show-toggle="true"
+        data-show-columns="true"
+        data-show-columns-toggle-all="true"
+        data-show-multi-sort="true"
+        data-show-multi-sort-button="true"
+        data-filter-control="true"
+        data-buttons-align="right"
+        data-buttons-class="primary"
+        data-show-pagination-switch="true"
+        data-pagination="true"
+        data-show-export="true"
+        data-export-types = "['excel']">
+          <caption>Registro Uniformes</caption>
+            <thead class="table-light">
+                <th scope="col" data-field="Num_Pedido" data-sortable="true"># Pedido</th>
+                <th scope="col" data-field="Empresa"  data-filter-control="select" data-filter-control-placeholder="Filtrar Empresa" data-filter-order-by="asc" data-sortable="true">Empresa</th>
+                <th scope="col" data-field="Nopersona" data-filter-control="input" data-filter-control-placeholder="Filtrar No Persona" data-filter-order-by="asc" data-sortable="true" data-visible="false">No Persona</th>
+                <th scope="col" data-field="Nombre" data-filter-control="input" data-filter-control-placeholder="Filtrar Nombre" data-filter-order-by="asc" data-sortable="true" >Nombre</th>
+                <th scope="col" data-field="Sexo" data-sortable="true" data-visible="false">Sexo</th>
+                <th scope="col" data-field="Talla" data-sortable="true" data-visible="false">Talla</th>
+                <th scope="col" data-field="Fecha_Solicitud" data-sortable="true" data-width="10">Solicitud</th>
+                <th scope="col" data-field="Fecha_Confirmacion" data-sortable="true" data-width="10">Confirmar</th>
+                <th scope="col" data-field="Fecha_Pedido" data-sortable="true" data-width="10">Pedido</th>
+                <th scope="col" data-field="Num_Seguimiento" data-sortable="true" data-width="30">Num Envío</th>
+                <th scope="col" data-field="Fecha_Entrega" data-sortable="true" data-width="10">Entrega</th>
+                <th scope="col" data-field="Descripcion" data-sortable="true">Descripción</th>
+                <th scope="col" data-field="Estado" data-filter-control="input"  data-filter-control-placeholder="Filtrar Estado" data-filter-order-by="asc" data-sortable="true">Estado</th>
+            </thead>
+            <tbody>
+                {%for registro in registros%}
+                <tr>
+                    <td>
+                      {%if registro.nopedido != None%}
+                      {{registro.nopedido}}
+                      {%endif%}
+                    </td>
+                    <td>
+                      {%if registro.empresa != None%}
+                      {{registro.empresa}}
+                      {%endif%}
+                    </td>
+                    <td>
+                      {%if registro.nopersona != None%}
+                      {{registro.nopersona}}
+                      {%endif%}
+                    </td>
+                    <td>
+                      {%if registro.nombre != None%}
+                      {{registro.nombre}}
+                      {%endif%}
+                    </td>
+                    <td>
+                      {%if registro.sexo != None%}
+                      {{registro.sexo}}
+                      {%endif%}
+                    </td>
+                    <td>
+                      {%if registro.talla != None%}
+                      {{registro.talla}}
+                      {%endif%}
+                    </td>
+                    <td>
+                      {%if registro.fechasolicitud != None%}
+                      {{registro.fechasolicitud}}
+                      {%endif%}
+                    </td>
+                    <td>
+                      {%if registro.fechaconfirmacion != None%}
+                      {{registro.fechaconfirmacion}}
+                      {%endif%}
+                    </td>
+                    <td>
+                      {%if registro.fechapedido != None%}
+                      {{registro.fechapedido}}
+                      {%endif%}
+                    </td>
+                    <td>
+                      {%if registro.noseguimiento != None%}
+                      {{registro.noseguimiento}}
+                      {%endif%}
+                    </td>
+                    <td>
+                      {%if registro.fechaentrega != None%}
+                      {{registro.fechaentrega}}
+                      {%endif%}
+                    </td>
+                    <td>
+                      {%if registro.descripcion != None%}
+                      {{registro.descripcion}}
+                      {%endif%}
+                    </td>
+                    <td data-label="Estado">
+                        {%if registro.estado == 'SOLICITUD'%}
+                        <form action='/recordatorio/0/{{registro.clvcontable}}' onSubmit="if(!confirm('¿Quieres enviar un recordatorio?')){return false;}" method="POST" novalidate>
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn_estado btn-secondary btn-sm">Solicitud</button>
+                        </form>
+                        {%endif%}
+                        {%if registro.estado == 'CANCELADO'%}
+                        <button type="button" class="btn btn_estado btn-danger btn-sm ">Cancelado</button>
+                        {%endif%}
+                        {%if registro.estado == 'PEDIDO'%}
+                        <form action='/recordatorio/1/{{registro.clvcontable}}' onSubmit="if(!confirm('¿Quieres enviar correo al almacén?')){return false;}" method="POST" novalidate>
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn_estado btn-primary btn-sm">Pedido</button>
+                        </form>
+                        
+                        {%endif%}
+                        {%if registro.estado == 'ENVIO'%}
+                        <form action='/recordatorio/2/{{registro.clvcontable}}' onSubmit="if(!confirm('¿Quieres enviar un recordatorio?')){return false;}" method="POST" novalidate>
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn_estado btn-Warning btn-sm ">Envio</button>
+                        </form>
+                        {%endif%}
+                        {%if registro.estado == 'ENTREGADO'%}
+                        <button type="button" class="btn btn_estado btn-Success btn-sm">Entregado</button>
+                        {%endif%}
+                        {%if registro.estado == 'ACLARACION'%}
+                        <button type="button" class="btn btn_estado btn-Dark btn-sm">Aclaracion</button>
+                        {%endif%}
+                        {%if registro.estado == 'ERROR'%}
+                        <button type="button" class="btn btn_estado btn-danger btn-sm">ERROR</button>
+                        {%endif%}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  </main>
+  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/print/bootstrap-table-print.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+
+  <style>
+    .table{
+      font-size: 15px;
+    }
+    .btn_estado{
+      font-size: 13px;
+      margin-left: 2px;
+      width: 100px;
+      border-radius: 15px ;
+    }
+  </style>
+  <script>
+    $(document).ready(function() {
+      $(window).keydown(function(event){
+        if(event.keyCode == 13) {
+          event.preventDefault();
+          return false;
+        }
+      });
+    });
+  </script>
+{% endblock %}
